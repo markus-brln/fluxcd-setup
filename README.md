@@ -176,3 +176,17 @@ helm uninstall vector --namespace vector
   - https://vector.dev/docs/reference/configuration/sources/kubernetes_logs/
   - https://vector.dev/docs/reference/configuration/sinks/console/
 
+![Vector console logs](./assets/vectorConsoleLogs.png)
+
+Vector being installed by flux:
+
+```json
+{"level":"info","ts":"2025-02-21T12:26:46.054Z","msg":"Created HelmChart/flux-system/vector-vector with SourceRef 'HelmRepository/flux-system/vector'","controller":"helmrelease","controllerGroup":"helm.toolkit.fluxcd.io","controllerKind":"HelmRelease","HelmRelease":{"name":"vector","namespace":"vector"},"namespace":"vector","name":"vector","reconcileID":"bb29cc3f-b9f6-4fdc-bec7-9141fa8fd55a"}
+{"level":"info","ts":"2025-02-21T12:26:46.090Z","msg":"HelmChart 'flux-system/vector-vector' is not ready: latest generation of object has not been reconciled","controller":"helmrelease","controllerGroup":"helm.toolkit.fluxcd.io","controllerKind":"HelmRelease","HelmRelease":{"name":"vector","namespace":"vector"},"namespace":"vector","name":"vector","reconcileID":"bb29cc3f-b9f6-4fdc-bec7-9141fa8fd55a"}
+{"level":"info","ts":"2025-02-21T12:26:47.082Z","msg":"HelmChart/flux-system/vector-vector with SourceRef 'HelmRepository/flux-system/vector' is in-sync","controller":"helmrelease","controllerGroup":"helm.toolkit.fluxcd.io","controllerKind":"HelmRelease","HelmRelease":{"name":"vector","namespace":"vector"},"namespace":"vector","name":"vector","reconcileID":"fb7fbc2a-1895-4031-b5d6-efa3073f7174"}
+{"level":"info","ts":"2025-02-21T12:26:47.128Z","msg":"release not installed: no release in storage for object","controller":"helmrelease","controllerGroup":"helm.toolkit.fluxcd.io","controllerKind":"HelmRelease","HelmRelease":{"name":"vector","namespace":"vector"},"namespace":"vector","name":"vector","reconcileID":"fb7fbc2a-1895-4031-b5d6-efa3073f7174"}
+{"level":"info","ts":"2025-02-21T12:26:47.147Z","msg":"running 'install' action with timeout of 5m0s","controller":"helmrelease","controllerGroup":"helm.toolkit.fluxcd.io","controllerKind":"HelmRelease","HelmRelease":{"name":"vector","namespace":"vector"},"namespace":"vector","name":"vector","reconcileID":"fb7fbc2a-1895-4031-b5d6-efa3073f7174"}
+{"level":"info","ts":"2025-02-21T12:26:49.838Z","msg":"release in-sync with desired state","controller":"helmrelease","controllerGroup":"helm.toolkit.fluxcd.io","controllerKind":"HelmRelease","HelmRelease":{"name":"vector","namespace":"vector"},"namespace":"vector","name":"vector","reconcileID":"fb7fbc2a-1895-4031-b5d6-efa3073f7174"}
+{"level":"info","ts":"2025-02-21T12:26:49.873Z","msg":"HelmChart/flux-system/vector-vector with SourceRef 'HelmRepository/flux-system/vector' is in-sync","controller":"helmrelease","controllerGroup":"helm.toolkit.fluxcd.io","controllerKind":"HelmRelease","HelmRelease":{"name":"vector","namespace":"vector"},"namespace":"vector","name":"vector","reconcileID":"2ea2cbeb-41c1-4dab-a9ea-a103309b28ff"}
+{"level":"info","ts":"2025-02-21T12:26:49.910Z","msg":"release in-sync with desired state","controller":"helmrelease","controllerGroup":"helm.toolkit.fluxcd.io","controllerKind":"HelmRelease","HelmRelease":{"name":"vector","namespace":"vector"},"namespace":"vector","name":"vector","reconcileID":"2ea2cbeb-41c1-4dab-a9ea-a103309b28ff"}
+```
