@@ -146,6 +146,8 @@ Remove binary from `/usr/local/bin/flux` (check `which flux`)
 
 ## Vector
 
+First needed to read about what vector does and how it works
+
 Following https://vector.dev/docs/setup/installation/platforms/kubernetes/
 
 ```bash
@@ -163,9 +165,11 @@ helm upgrade --install vector ./charts/vector \
   -f ./charts/vector/values.yaml \
   --namespace vector \
   --create-namespace
+helm uninstall vector --namespace vector
 ```
 
 - Did a `helm show values vector/vector > charts/vector/values.yaml` so I can go through all values and see what I need
   to change
-
+- Deployed first with default values before changing anything, so I can do incremental changes from here
+- Found out that I probably only need to change `customConfig` with sources and sinks
 
