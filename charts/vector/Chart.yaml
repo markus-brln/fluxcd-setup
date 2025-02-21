@@ -1,0 +1,9 @@
+apiVersion: v2
+name: vector
+version: 0.1.0
+description: A Helm chart for Vector
+type: application
+dependencies:
+    - name: vector
+      version: 0.40.0
+      repository: https://helm.vector.dev

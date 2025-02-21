@@ -3,21 +3,23 @@
 ## Tasks
 
 - kubernetes cluster
-- FluxCD bootstrap on my cluster, 
+- FluxCD bootstrap on my cluster
+- Install vector inside the cluster using flux, output some logs
+- Opting to skip PLG stack because I did that for another interview: https://github.com/markus-brln/prometheus-grafana-setup
 
 ## Install lightweight kubernetes distro
 
 - Kubernetes distro choice:
-  - already have experience with microk8s, so don't want to re-invent the wheel
-  - looked at other distros, but didn't want to do a full analysis with POCs for this task
+  - Already have experience with microk8s, so don't want to re-invent the wheel
+  - Looked at other distros, but didn't want to do a full analysis with POCs for this task
 
 ```bash
 sudo snap install microk8s --classic --channel=1.31/stable
 ```
 
 - How do I determine versions? At the company we take the second-to-last major version / take an LTS
-  - new features, new bugs
-  - still patch releases
+  - New features, new bugs
+  - Still patch releases
 
 ## Bootstrap FluxCD
 
@@ -62,11 +64,17 @@ Errors:
 add): error getting ClusterInformation: connection is unauthorized: Unauthorized
 ```
 
+- Saved the error logs, turned out to be very helpful in the past, especially for incidents
 - Asked copilot and the internet a bit, seemed to agree that I'd just need to restart the calico node pod
   - Matches my prio experience of microk8s in general having some issues when rebooting the host machine
+  - On staging or production I'd think about this twice, but on local it's fine
   - That did the trick, flux workloads were scheduled
 
-Output of flux bootstrap, I think I got a timeout because of the scheduling issues:
+Output of flux bootstrap
+- I think I got a timeout because of the scheduling issues
+- But I also got `all components are healthy`
+
+![flux-bootstrap](./assets/k9sViewWithFlux.png)
 
 ```bash
 ► connecting to github.com
@@ -107,16 +115,57 @@ don't have any error logs - I'll just try to commit something to the repo and se
 
 Flux also successfully added its components to my repo: https://github.com/markus-brln/fluxcd-setup/tree/main/flux-manifests/flux-system
 
+Adding a simple test namespace was successful, got picked up by the source controller
 
+```json
+{
+  "level": "info",
+  "ts": "2025-02-21T10:35:40.716Z",
+  "msg": "stored artifact for commit 'test namespace, more readme'",
+  "controller": "gitrepository",
+  "controllerGroup": "source.toolkit.fluxcd.io",
+  "controllerKind": "GitRepository",
+  "GitRepository": {
+    "name": "flux-system",
+    "namespace": "flux-system"
+  },
+  "namespace": "flux-system",
+  "name": "flux-system",
+  "reconcileID": "da81524a-5e68-44dc-b3c4-6a65e1451381"
+}
+```
 
-## Uninstall
+## Uninstall FluxCD
 
 ```bash
 flux uninstall
 ```
 
+Remove binary from `/usr/local/bin/flux` (check `which flux`)
 
-- don't over-engineer
 
+## Vector
+
+Following https://vector.dev/docs/setup/installation/platforms/kubernetes/
+
+```bash
+helm repo add vector https://helm.vector.dev
+helm repo update
+helm show values vector/vector
+```
+
+- Made a quick helm chart for faster development, otherwise I'd need to commit every small change and run a flux
+  reconcile every time, like this it's just:
+
+```bash
+helm dependency build ./charts/vector  # once
+helm upgrade --install vector ./charts/vector \
+  -f ./charts/vector/values.yaml \
+  --namespace vector \
+  --create-namespace
+```
+
+- Did a `helm show values vector/vector > charts/vector/values.yaml` so I can go through all values and see what I need
+  to change
 
 
