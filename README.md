@@ -172,4 +172,7 @@ helm uninstall vector --namespace vector
   to change
 - Deployed first with default values before changing anything, so I can do incremental changes from here
 - Found out that I probably only need to change `customConfig` with sources and sinks
+- Looked at the references for kubernetes source and console sink until I and vector were happy with the config
+  - https://vector.dev/docs/reference/configuration/sources/kubernetes_logs/
+  - https://vector.dev/docs/reference/configuration/sinks/console/
 

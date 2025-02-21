@@ -1,30 +1,21 @@
 
-#vector:
-#  logLevel: "debug"
-#
-#  customConfig:
-#    sources:
-#      kubernetes:
-#        type: kubernetes_logs
-#    sinks:
-#      stdout:
-#        type: console
-#        inputs: [kubernetes]
-#        encoding:
-#          codec: json
-    # data_dir: /vector-data-dir
-  # api:
-  #   enabled: true
-  #   address: 127.0.0.1:8686
-  #   playground: false
-#  sources:
-#    vector:
-#      address: 0.0.0.0:6000
-#      type: vector
-#      version: "2"
-  # sinks:
-  #   stdout:
-  #     type: console
-  #     inputs: [vector]
-  #     encoding:
-  #       codec: json
+vector:
+  logLevel: "debug"  # checked what debugging would output
+
+  customConfig:
+    sources:
+      kubernetes:
+        type: kubernetes_logs
+        self_node_name: mb  # `kubectl get nodes`
+      vector:
+        address: 0.0.0.0:6000
+        type: vector
+        version: "2"
+    sinks:
+      console_stdout:
+        type: console
+        inputs:
+          - kubernetes
+          - vector
+        encoding:
+          codec: text

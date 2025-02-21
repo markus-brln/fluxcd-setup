@@ -1,0 +1,36 @@
+# flux-manifests/vector-helm-release.yaml
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: vector
+  namespace: vector
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: vector
+      sourceRef:
+        kind: HelmRepository
+        name: vector
+        namespace: flux-system
+      version: 0.40.0
+  values:
+    logLevel: "debug"  # checked what debugging would output
+
+    customConfig:
+      sources:
+        kubernetes:
+          type: kubernetes_logs
+          self_node_name: mb  # `kubectl get nodes`
+        vector:
+          address: 0.0.0.0:6000
+          type: vector
+          version: "2"
+      sinks:
+        console_stdout:
+          type: console
+          inputs:
+            - kubernetes
+            - vector
+          encoding:
+            codec: text
