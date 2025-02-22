@@ -11,11 +11,15 @@ vector:
         address: 0.0.0.0:6000
         type: vector
         version: "2"
+      http_client:
+        type: http_client
+        endpoint: https://example.com
     sinks:
       console_stdout:
         type: console
         inputs:
           - kubernetes
           - vector
+          - http_client
         encoding:
           codec: text
